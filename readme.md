@@ -1,0 +1,1 @@
+geth --genesis genesis.json --datadir ./datadir --networkid 123 --rpc --rpcapi="admin,miner,db,eth,debug,personal,web3"
