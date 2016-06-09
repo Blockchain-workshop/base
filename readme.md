@@ -11,6 +11,7 @@ Mappestrukturen i prosjektet er standardoppsettet generert av CLI-verktøyet
 Truffle vil her brukes til bygging, testing og deploying av kontraktene vi lager.
 
 For å starte opp en enkel lokal blockchain, og deploye din første app gjør du følgende
+
 1. `npm run start-dev-server` (et eget konsollvindu)
 2. `npm run deploy -e test`
 3. `npm run build-frontend -e test`
