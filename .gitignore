@@ -1,3 +1,6 @@
 node_modules/
 environments/**/contracts/
 environments/**/build/
+
+datadir/**/*
+!datadir/static-nodes.json
