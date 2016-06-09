@@ -2,5 +2,6 @@ node_modules/
 environments/**/contracts/
 environments/**/build/
 
+.idea/
 datadir/**/*
 !datadir/static-nodes.json
