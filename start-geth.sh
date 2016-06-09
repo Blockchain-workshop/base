@@ -2,7 +2,7 @@
 
 datadir="./datadir"
 genesisfile="genesis.json"
-networkid="123"
+networkid="956456"
 rpcmodules="admin,miner,db,eth,debug,personal,web3,net"
 
 if [ ! -d "$datadir/chaindata" ]; then
