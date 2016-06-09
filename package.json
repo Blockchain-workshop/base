@@ -16,7 +16,7 @@
     "compile": "./node_modules/.bin/truffle compile",
     "deploy": "./node_modules/.bin/truffle deploy",
     "test": "./node_modules/.bin/truffle test",
-    "start-dev-server": "./node_modules/.bin/testrpc"
+    "start-dev-server": "./node_modules/.bin/testrpc -p 8546"
   },
   "author": "",
   "license": "ISC"
