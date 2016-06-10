@@ -29,6 +29,9 @@ contract('MetaCoin', function(accounts) {
     var account_one = accounts[0];
     var account_two = accounts[1];
 
+    assert.notEqual(account_one, undefined, "You need to have atleast 2 accounts, with the first unlocked");
+    assert.notEqual(account_two, undefined, "You need to have atleast 2 accounts, with the first unlocked");
+
     var account_one_starting_balance;
     var account_two_starting_balance;
     var account_one_ending_balance;
