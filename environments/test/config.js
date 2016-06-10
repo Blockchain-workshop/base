@@ -1,1 +1,6 @@
-module.exports = {}
+module.exports = {
+    rpc: {
+        host: "localhost",
+        port: 8546
+    }
+}
