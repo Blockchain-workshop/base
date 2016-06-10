@@ -12,4 +12,4 @@ if [ ! -d "$datadir/chaindata" ]; then
 fi
 
 echo "launching geth"
-geth --datadir $datadir --networkid $networkid --rpc --rpcapi="$rpcmodules" --unlock 0
+geth --datadir $datadir --networkid $networkid --rpc --rpcapi="$rpcmodules" --unlock 0 --rpccorsdomain "*"
