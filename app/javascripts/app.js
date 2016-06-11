@@ -7,6 +7,22 @@ function setStatus(message) {
   status.innerHTML = message;
 };
 
+function populateSelectElement() {
+    const selectElement = document.querySelector("#accounts");
+
+    accounts.forEach(acc => {
+      const option = new Option(acc, acc);
+      selectElement.appendChild(option);
+    });
+
+    selectElement.value = account;
+}
+
+function selectNewAccount(selectedAccount) {
+  account = selectedAccount;
+  refreshBalance();
+}
+
 function refreshBalance() {
   var meta = MetaCoin.deployed();
 
@@ -28,11 +44,12 @@ function sendCoin() {
   setStatus("Initiating transaction... (please wait)");
 
   meta.sendCoin(receiver, amount, {from: account}).then(function() {
+    document.querySelector("#amount").value = "";
+    document.querySelector("#receiver").value = "";
     setStatus("Transaction complete!");
     refreshBalance();
   }).catch(function(e) {
-    console.log(e);
-    setStatus("Error sending coin; see log.");
+    setStatus("Error sending coin: " + e.message);
   });
 };
 
@@ -51,6 +68,7 @@ window.onload = function() {
     accounts = accs;
     account = accounts[0];
 
+    populateSelectElement();
     refreshBalance();
   });
 }

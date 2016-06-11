@@ -10,10 +10,16 @@ label {
   width: 100px;
 }
 
-input {
+input, select {
   width: 500px;
   padding: 5px;
   font-size: 16px;
+  box-sizing:content-box;
+}
+
+select {
+  margin-left: -4px;
+  padding-right: 7px;
 }
 
 button {
