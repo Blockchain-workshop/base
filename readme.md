@@ -13,11 +13,12 @@ lager. I tillegg vil den hjelpe oss med å bygge frontenden - og legge
 våre bygde kontrakter tilgjengelig i scriptet.
 
 For å starte opp en enkel lokal blockchain, og deploye din første app gjør du
-følgende
+følgende: (`-- -e test` betyr at vi ønsker å bruke test-environment)
 
 1. `npm run start-dev-server` (et eget konsollvindu)
-2. `npm run deploy -e test`
-3. `npm run serve -e test`
+2. `npm run deploy -- -e test`
+3. `npm run build-frontend --e test`
+4. `npm run serve -- -e test`
 5. Åpne opp [http://localhost:8080](http://localhost:8080) i nettleseren
 
 Nå kan du fortsette med å ta en titt på oppgavene
@@ -27,8 +28,12 @@ Nå kan du fortsette med å ta en titt på oppgavene
 
 ### Tilgjengelige kommandoer (via npm)
 
+Alle scriptene tar inn en environmentflagg, som kan legged med å legge til
+`-- -e {test/development}`. Default er development.
+
 * `npm run serve`: Kontinuerlig bygger javascript-appen, og server på port 8080
 * `npm run compile` vil kompilere kontrakten din
+* `npm run build-js` bygger javascriptapplikasjonen
 * `npm run start-dev-server` starter en lokal dev-server, brukes ved deploy og
 testing
 * `npm run deploy` vil kompilere + deploye applikasjonen din til ditt lokale

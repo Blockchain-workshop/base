@@ -9,6 +9,8 @@ const environment = argv.e || 'development';
 const folder = './environments/' + environment;
 const outFolder = folder + '/build';
 
+console.log("Using environment", environment);
+
 gulp.task('serve', function() {
     connect.server({
         root: outFolder,
