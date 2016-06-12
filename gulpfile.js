@@ -11,7 +11,7 @@ const outFolder = folder + '/build';
 
 console.log("Using environment", environment);
 
-gulp.task('serve', function() {
+gulp.task('serve', ['build'], function() {
     connect.server({
         root: outFolder,
         host: "0.0.0.0",
