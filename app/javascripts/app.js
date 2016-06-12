@@ -1,6 +1,17 @@
-var accounts;
-var account;
-var balance;
+import config from "config.js";
+import MetaCoin from "contracts/MetaCoin.sol.js";
+import Web3 from "web3";
+import Pudding from "ether-pudding";
+
+const host = config.host || "localhost";
+const port = config.port || "8545";
+
+const web3 = new Web3();
+Pudding.setWeb3(web3);
+web3.setProvider(new web3.providers.HttpProvider("http://" + host + ":" + port));
+
+MetaCoin.load(Pudding);
+let accounts, account;
 
 function setStatus(message) {
   var status = document.getElementById("status");

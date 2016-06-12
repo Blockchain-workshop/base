@@ -1,1 +1,0 @@
-Images will be stord in this folder :)
