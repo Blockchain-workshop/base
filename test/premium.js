@@ -1,77 +1,117 @@
+var BigNumber = require('bignumber.js');
+
 contract('Premium', function(accounts) {
-  it("should return true on premium admin account", function(done) {
-    var meta = Premium.deployed();
+    var premium;
+    function toEther(value) {
+        return web3.fromWei(value, "ether");
+    }
 
-    meta.amIPremium.call('admin', {from:accounts[0]}).then(function(value) {
-      assert.equal(value, true);
-    }).then(done).catch(done);
-  });
+    function toWei(value) {
+        return web3.toWei(value, "ether");
+    }
 
-  it("should get price of premium memberships", function(done) {
-    var meta = Premium.deployed();
+    before(function() {
+        premium = Premium.deployed();
+    });
 
-    meta.getPrice().then(function(price) {
-      console.log(price.valueOf());
-    }).then(done).catch(done);
-  });
+    it("should return 2 ether as price from getPrice()", function(done) {
+        premium.getPrice.call().then(function(value) {
+            const priceInEther = toEther(value.valueOf())
+            assert.equal(priceInEther, 2);
+        }).then(done).catch(done);
+    });
 
+    it("should be able to set new price with setPrice()", function(done) {
+        const newPrice = toWei(5);
+        premium.setPrice(newPrice)
+            .then(function(){
+                return premium.getPrice.call();
+            }).then(function(value) {
+                assert.equal(value.valueOf(), newPrice);
+            }).then(done).catch(done);
+    });
 
-  it("should show false for non premium users", function(done) {
-    var meta = Premium.deployed();
+    it("should not be able to set new price with an account that is not the owner", function(done) {
+        premium.setPrice(toWei(9), { from: accounts[1] })
+            .catch(() => {})
+            .then(function(){
+                return premium.getPrice.call();
+            }).then(function(value) {
+                assert.equal(value.valueOf(), toWei(5));
+            }).then(done).catch(done);
+    });
 
-    meta.amIPremium.call('test', {from:accounts[1]}).then(function(value) {
-      assert.equal(value, false);
-    }).then(done).catch(done);
-  });
-  // it("should call a function that depends on a linked library  ", function(done){
-  //   var meta = MetaCoin.deployed();
-  //   var metaCoinBalance;
-  //   var metaCoinEthBalance;
-  //
-  //   meta.getBalance.call(accounts[0]).then(function(outCoinBalance){
-  //     metaCoinBalance = outCoinBalance.toNumber();
-  //     return meta.getBalanceInEth.call(accounts[0]);
-  //   }).then(function(outCoinBalanceEth){
-  //     metaCoinEthBalance = outCoinBalanceEth.toNumber();
-  //
-  //   }).then(function(){
-  //     assert.equal(metaCoinEthBalance,2*metaCoinBalance,"Library function returned unexpeced function, linkage may be broken");
-  //
-  //   }).then(done).catch(done);
-  // });
-  // it("should send coin correctly", function(done) {
-  //   var meta = MetaCoin.deployed();
-  //
-  //   // Get initial balances of first and second account.
-  //   var account_one = accounts[0];
-  //   var account_two = accounts[1];
-  //
-  //   assert.notEqual(account_one, undefined, "You need to have atleast 2 accounts, with the first unlocked");
-  //   assert.notEqual(account_two, undefined, "You need to have atleast 2 accounts, with the first unlocked");
-  //
-  //   var account_one_starting_balance;
-  //   var account_two_starting_balance;
-  //   var account_one_ending_balance;
-  //   var account_two_ending_balance;
-  //
-  //   var amount = 10;
-  //
-  //   meta.getBalance.call(account_one).then(function(balance) {
-  //     account_one_starting_balance = balance.toNumber();
-  //     return meta.getBalance.call(account_two);
-  //   }).then(function(balance) {
-  //     account_two_starting_balance = balance.toNumber();
-  //     return meta.sendCoin(account_two, amount, {from: account_one});
-  //   }).then(function() {
-  //     return meta.getBalance.call(account_one);
-  //   }).then(function(balance) {
-  //     account_one_ending_balance = balance.toNumber();
-  //     return meta.getBalance.call(account_two);
-  //   }).then(function(balance) {
-  //     account_two_ending_balance = balance.toNumber();
-  //
-  //     assert.equal(account_one_ending_balance, account_one_starting_balance - amount, "Amount wasn't correctly taken from the sender");
-  //     assert.equal(account_two_ending_balance, account_two_starting_balance + amount, "Amount wasn't correctly sent to the receiver");
-  //   }).then(done).catch(done);
-  // });
+    it("isUserPremium should return false for unregistered user", function(done) {
+        premium.isUserPremium.call("enepost@bekk.no")
+            .then(function(result){
+                assert.equal(result.valueOf(), false);
+            }).then(done).catch(done);
+    });
+
+    it("should become premium user if I register with becomePremiumUser", function(done) {
+        const transactionOpts = {
+            from: accounts[1],
+            value: toWei(5)
+        };
+        premium.becomePremiumUser("bruker1", transactionOpts)
+            .then(function(){
+                return premium.isUserPremium.call("bruker1");
+            }).then(function(result) {
+                assert.equal(result.valueOf(), true);
+            }).then(done).catch(done);
+    });
+
+    it("should not become premium user if I register with becomePremiumUser without paying", function(done) {
+        const transactionOpts = {
+            from: accounts[1],
+            value: toWei(2)
+        };
+
+        premium.becomePremiumUser("bruker2", transactionOpts)
+            .catch(() => {})
+            .then(function(){
+                return premium.isUserPremium.call("bruker2");
+            }).then(function(result) {
+                assert.equal(result.valueOf(), false);
+            }).then(done).catch(done);
+    });
+
+    it("should return ether if we did not pay enough", function(done) {
+        const transactionOpts = {
+            from: accounts[1],
+            value: toWei(2)
+        };
+
+        const balanceBefore = web3.eth.getBalance(accounts[1]);
+        premium.becomePremiumUser("bruker2", transactionOpts)
+            .catch(() => {})
+            .then(function(){
+                return premium.isUserPremium.call("bruker2");
+            }).then(function(result) {
+                const balanceAfter = web3.eth.getBalance(accounts[1]);
+                assert.equal(result.valueOf(), false, "User was mistakenly rigstered!");
+                const cost = balanceBefore.minus(balanceAfter);
+                assert.equal(toEther(cost).toNumber() < 0.1, true, "Did not return the ether");
+            }).then(done).catch(done);
+    });
+
+    it("should return the extra ether if we pay to much", function(done) {
+        const transactionOpts = {
+            from: accounts[1],
+            value: toWei(1000)
+        };
+
+        const balanceBefore = web3.eth.getBalance(accounts[1]);
+        premium.becomePremiumUser("bruker3", transactionOpts)
+            .catch(() => {})
+            .then(function(){
+                return premium.isUserPremium.call("bruker3");
+            }).then(function(result) {
+                const balanceAfter = web3.eth.getBalance(accounts[1]);
+                assert.equal(result.valueOf(), true);
+                const cost = toEther(balanceBefore.minus(balanceAfter)).toNumber();
+                assert.equal(cost >= 5, true, "Costs less than asking-price");
+                assert.equal(cost < 5.1, true, "Costs more than asking-price!");
+            }).then(done).catch(done);
+    });
 });

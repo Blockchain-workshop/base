@@ -9,14 +9,12 @@ contract Premium {
     mapping(string => User) PremiumUsers;
     address owner;
 
-
-
     function Premium() {
         owner = msg.sender;
         var user = PremiumUsers['admin'];
         user.user = owner;
         user.paid = true;
-        price = 2;
+        price = 2 ether;
     }
 
     modifier costs(uint _amount) {
@@ -37,20 +35,12 @@ contract Premium {
         price = newPrice;
     }
 
-    function getPrice() constant returns (uint price) {
+    function getPrice() constant returns (uint) {
         return price;
     }
 
-    function isUserPremium(string mail) onlyBy(owner) returns (bool valid) {
+    function isUserPremium(string mail) returns (bool) {
         if(PremiumUsers[mail].paid) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    function amIPremium(string mail) returns (bool valid) {
-        if(PremiumUsers[mail].paid && PremiumUsers[mail].user == msg.sender) {
             return true;
         } else {
             return false;
