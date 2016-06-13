@@ -32,7 +32,7 @@ contract('Premium', function(accounts) {
             }).then(done).catch(done);
     });
 
-    it("should not be able to set new price with an account that is not the owner", function(done) {
+    it("setPrice() should not be able to set new price with an account that is not the owner", function(done) {
         premium.setPrice(toWei(9), { from: accounts[1] })
             .catch(() => {})
             .then(function(){
@@ -54,7 +54,7 @@ contract('Premium', function(accounts) {
         });
     });
 
-    it("should send all the balance on the account to the owner", function (done){
+    it("extractProfit() should send all the balance on the account to the owner", function (done){
         const transactionOpts = {
             from: accounts[0]
         };
@@ -69,7 +69,7 @@ contract('Premium', function(accounts) {
             }).then(done).catch(done);
     });
 
-    it("should not return the balance on the contract when getProfit() is called by someone else than the owner", function (done){
+    it("should not send the balance on the contract when extractProfit() is called by someone else than the owner", function (done){
         web3.eth.sendTransaction({
             to: premium.address,
             from: accounts[2],
@@ -127,7 +127,7 @@ contract('Premium', function(accounts) {
             }).then(done).catch(done);
     });
 
-    it("should return ether if we did not pay enough", function(done) {
+    it("becomePremiumUser() should return ether if we did not pay enough", function(done) {
         const transactionOpts = {
             from: accounts[1],
             value: toWei(2)
@@ -146,7 +146,7 @@ contract('Premium', function(accounts) {
             }).then(done).catch(done);
     });
 
-    it("should return all the ether if user is registered", function(done) {
+    it("becomePremiumUser() should return all the ether if user is already registered", function(done) {
         const transactionOpts = {
             from: accounts[1],
             value: toWei(1000)
@@ -165,7 +165,7 @@ contract('Premium', function(accounts) {
             }).then(done).catch(done);
     });
 
-    it("should return the extra ether if we pay to much", function(done) {
+    it("becomePremiumUser() should return the extra ether if we pay to much", function(done) {
         const transactionOpts = {
             from: accounts[1],
             value: toWei(1000)
