@@ -95,7 +95,7 @@ contract('Premium', function(accounts) {
     it("isUserPremium should return false for unregistered user", function(done) {
         premium.isUserPremium.call("enepost@bekk.no")
             .then(function(result){
-                assert.equal(result.valueOf(), false);
+                assert.equal(result.valueOf() === false, true, "Did not return false for unregistered user");
             }).then(done).catch(done);
     });
 
@@ -123,7 +123,7 @@ contract('Premium', function(accounts) {
             .then(function(){
                 return premium.isUserPremium.call("bruker2");
             }).then(function(result) {
-                assert.equal(result.valueOf(), false, "Was registered as a new user");
+                assert.equal(result.valueOf() === false, true, "Was registered as a new user");
             }).then(done).catch(done);
     });
 
