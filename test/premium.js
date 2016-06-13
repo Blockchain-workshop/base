@@ -12,6 +12,7 @@ contract('Premium', function(accounts) {
 
     before(function() {
         premium = Premium.deployed();
+        web3.eth.defaultAccount = accounts[0];
     });
 
     it("should return 2 ether as price from getPrice()", function(done) {
@@ -27,7 +28,7 @@ contract('Premium', function(accounts) {
             .then(function(){
                 return premium.getPrice.call();
             }).then(function(value) {
-                assert.equal(value.valueOf(), newPrice);
+                assert.equal(value.valueOf(), newPrice, "Was not able to change the price.");
             }).then(done).catch(done);
     });
 
@@ -37,8 +38,60 @@ contract('Premium', function(accounts) {
             .then(function(){
                 return premium.getPrice.call();
             }).then(function(value) {
-                assert.equal(value.valueOf(), toWei(5));
+                assert.equal(value.valueOf(), toWei(5), "The price has been changed!");
             }).then(done).catch(done);
+    });
+
+     it("should return the balance on the contract when getProfit() is called", function (done){
+        web3.eth.sendTransaction({
+            to: premium.address,
+            value: toWei(100)
+        }, function(err, address) {
+            premium.getProfit.call()
+                .then(function(res) {
+                    assert.equal(res.valueOf(), toWei(100));
+                }).then(done).catch(done);
+        });
+    });
+
+    it("should send all the balance on the account to the owner", function (done){
+        const transactionOpts = {
+            from: accounts[0]
+        };
+
+        const balanceBefore = web3.eth.getBalance(accounts[0]);
+        premium.extractProfit(transactionOpts)
+            .catch(() => {})
+            .then(function() {
+                const balanceAfter = web3.eth.getBalance(accounts[0]);
+                const earned = balanceAfter.minus(balanceBefore);
+                assert.equal(toEther(earned).toNumber() > 9.9, true, "Did not extract all the ether");
+            }).then(done).catch(done);
+    });
+
+    it("should not return the balance on the contract when getProfit() is called by someone else than the owner", function (done){
+        web3.eth.sendTransaction({
+            to: premium.address,
+            value: toWei(100)
+        }, function(err, address) {
+            const account = accounts[2];
+            const transactionOpts = {
+                from: account
+            };
+
+            const balanceBeforeSender = web3.eth.getBalance(account);
+            const balanceBeforeOwner = web3.eth.getBalance(accounts[0]);
+            premium.extractProfit(transactionOpts)
+                .catch(() => {})
+                .then(function() {
+                    const balanceAfterSender = web3.eth.getBalance(account);
+                    const balanceAfterOwner = web3.eth.getBalance(accounts[0]);
+                    const earnedSender = balanceAfterSender.minus(balanceAfterSender);
+                    const earnedOwner = balanceAfterOwner.minus(balanceAfterOwner);
+                    assert.equal(toEther(earnedSender).toNumber() <= 0, true, "Money was extracted to the person asking");
+                    assert.equal(toEther(earnedOwner).toNumber() <= 0, true, "Money was extracted to the owner");
+                }).then(done).catch(done);
+        });
     });
 
     it("isUserPremium should return false for unregistered user", function(done) {
@@ -57,7 +110,7 @@ contract('Premium', function(accounts) {
             .then(function(){
                 return premium.isUserPremium.call("bruker1");
             }).then(function(result) {
-                assert.equal(result.valueOf(), true);
+                assert.equal(result.valueOf(), true, "Was not registered as a new user.");
             }).then(done).catch(done);
     });
 
@@ -72,7 +125,7 @@ contract('Premium', function(accounts) {
             .then(function(){
                 return premium.isUserPremium.call("bruker2");
             }).then(function(result) {
-                assert.equal(result.valueOf(), false);
+                assert.equal(result.valueOf(), false, "Was registered as a new user");
             }).then(done).catch(done);
     });
 
@@ -92,6 +145,25 @@ contract('Premium', function(accounts) {
                 assert.equal(result.valueOf(), false, "User was mistakenly rigstered!");
                 const cost = balanceBefore.minus(balanceAfter);
                 assert.equal(toEther(cost).toNumber() < 0.1, true, "Did not return the ether");
+            }).then(done).catch(done);
+    });
+
+    it("should return all the ether if user is registered", function(done) {
+        const transactionOpts = {
+            from: accounts[1],
+            value: toWei(1000)
+        };
+
+        const balanceBefore = web3.eth.getBalance(accounts[1]);
+        premium.becomePremiumUser("bruker1", transactionOpts)
+            .catch(() => {})
+            .then(function(){
+                return premium.isUserPremium.call("bruker1");
+            }).then(function(result) {
+                const balanceAfter = web3.eth.getBalance(accounts[1]);
+                assert.equal(result.valueOf(), true);
+                const cost = toEther(balanceBefore.minus(balanceAfter)).toNumber();
+                assert.equal(cost < 0.1, true, "The ether was not returned to the account");
             }).then(done).catch(done);
     });
 

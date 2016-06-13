@@ -22,7 +22,7 @@ contract Premium {
             throw;
         _
         if (msg.value > _amount)
-            msg.sender.send(_amount - msg.value);
+            msg.sender.send(msg.value - _amount);
     }
 
     modifier onlyBy(address account) {
@@ -37,6 +37,14 @@ contract Premium {
 
     function getPrice() constant returns (uint) {
         return price;
+    }
+
+    function getProfit() returns(uint) {
+        return this.balance;
+    }
+
+    function extractProfit() {
+        owner.send(this.balance);
     }
 
     function isUserPremium(string mail) returns (bool) {
