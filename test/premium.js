@@ -72,22 +72,20 @@ contract('Premium', function(accounts) {
     it("should not return the balance on the contract when getProfit() is called by someone else than the owner", function (done){
         web3.eth.sendTransaction({
             to: premium.address,
+            from: accounts[2],
             value: toWei(100)
         }, function(err, address) {
             const account = accounts[2];
-            const transactionOpts = {
-                from: account
-            };
 
             const balanceBeforeSender = web3.eth.getBalance(account);
             const balanceBeforeOwner = web3.eth.getBalance(accounts[0]);
-            premium.extractProfit(transactionOpts)
+            premium.extractProfit({ from: account })
                 .catch(() => {})
                 .then(function() {
                     const balanceAfterSender = web3.eth.getBalance(account);
                     const balanceAfterOwner = web3.eth.getBalance(accounts[0]);
-                    const earnedSender = balanceAfterSender.minus(balanceAfterSender);
-                    const earnedOwner = balanceAfterOwner.minus(balanceAfterOwner);
+                    const earnedSender = balanceAfterSender.minus(balanceBeforeSender);
+                    const earnedOwner = balanceAfterOwner.minus(balanceBeforeOwner);
                     assert.equal(toEther(earnedSender).toNumber() <= 0, true, "Money was extracted to the person asking");
                     assert.equal(toEther(earnedOwner).toNumber() <= 0, true, "Money was extracted to the owner");
                 }).then(done).catch(done);

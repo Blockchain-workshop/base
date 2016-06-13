@@ -43,7 +43,7 @@ contract Premium {
         return this.balance;
     }
 
-    function extractProfit() {
+    function extractProfit() onlyBy(owner) {
         owner.send(this.balance);
     }
 
@@ -62,18 +62,6 @@ contract Premium {
             var newUser = PremiumUsers[mail];
             newUser.user = msg.sender;
             newUser.paid = true;
-        }
-    }
-
-    function setMail(string oldMail, string newMail) returns (bool changed) {
-        if(PremiumUsers[oldMail].user == msg.sender) {
-            var newUser = PremiumUsers[newMail];
-            newUser.user = msg.sender;
-            newUser.paid = true;
-            delete PremiumUsers[oldMail];
-            return true;
-        } else {
-            return false;
         }
     }
 
