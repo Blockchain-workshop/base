@@ -9,10 +9,11 @@ Dette kan man lett kommunisere med via et rammeverk som heter
 [web3](https://github.com/ethereum/wiki/wiki/JavaScript-API), som vi vil bruke
 i denne oppgaven.
 
-Boilerplate for oppgaven finner du under `./boilerplate/oppgave1/`. Oppgaven
-kommer med ferdig boilerplate - og alt som egentlig skal gjøres er å fylle
-ut de tomme funksjonene i `script.js`. Du står selvfølgelig fritt til å bruke
-kreativiteten og endre på ting om det er ønskelig.
+Boilerplate for oppgaven finner du under `./boilerplate/oppgave1/`. Det meste
+av nødvendig kode er skrevet, og alt som egentlig skal gjøres er å fylle
+ut de tomme funksjonene i `script.js` slik at alt fungerer.  Du står
+selvfølgelig fritt til å bruke kreativiteten og endre på ting om det
+er ønskelig.
 
 ## Ekstra features, om man har tid og lyst
 
