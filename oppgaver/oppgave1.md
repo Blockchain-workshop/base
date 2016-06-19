@@ -38,8 +38,34 @@ kjenne litt på hvordan en blockchain fungerer, vil vi først prøve å ta i
 det i bruk via en [interaktiv javascript-konsoll](https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console) 
 som følger med Geth. Koble til med å skrive `geth attach http://localhost:8545`
 
-### Opprette en konto og skaffe ether
+### Opprette en konto
 
 Alt vi gjør på en blockchain ender opp som transaksjoner, som må verfiseres og
-mines for å kunne ble en aktiv del av blockchainen.
+mines for å kunne ble en aktiv del av blockchainen. For at minere skal ha lyst
+til å mine din blokk må man gi dem et insentiv - og i ethereum (og BitCoin)
+gjøres dette ved at man legger ved en liten "fee" som mineren får som
+belønning for å ta med transaksjonen din i blokken som blir minet.
 
+Før vi kan skaffe ether, som er navnet på valuttaen, må vi ha en konto
+til den. Tilgjengelige kontoer ligger lagret på variabelen `eth.accounts`.
+Som en liste med addresser.
+
+Om resultatet fra funkksjonen var en tom liste, betyr det at ingen kontoen
+har blitt satt opp enda - og vi må lage en ny konto vi kan bruke. For å gjøre
+dette kan vi bruker kommandoen `personal.newAccount()`. Returverdien er
+addressen til addressen som ble opprettet.
+
+Det som skjedde når du kjørte denne kommandoen var at Geth opprettet et
+public/private nøkkelpar som representerer din konto. I tillegg lager den
+en addresse, som i praksis bare er en hash av public-keyen din. Alle
+transaksjoner du gjør på BlockChainen må signeres med din privatekey
+slik at man kan verifisere at du er den faktiske eieren av kontoen.
+
+## Oppgaver, prøve litt på egenhånd
+
+Oppgavene her, vil alle bruke terminal-klienten. Det er anbefalt å samarbeide
+i par, men det går helt fint å gjøre de både alene eller å være flere.
+
+1. Sjekk hvor mye du har tilgjengelig på din konto.
+2. Prøv og mine et par blokker met Geth sin CPU-miner
+    Husk å skru den av igjen, for å spare på ressursene på maskinen
