@@ -1,9 +1,1 @@
-node_modules/
-environments/**/contracts/
-environments/**/build/
-npm-debug.log
-.idea/
-datadir/**/*
-datadir2/**/*
-datadir3/**/*
-!datadir/static-nodes.json
+datadir*/**/*
