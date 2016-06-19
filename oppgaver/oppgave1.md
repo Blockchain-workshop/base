@@ -63,9 +63,21 @@ slik at man kan verifisere at du er den faktiske eieren av kontoen.
 
 ## Oppgaver, prøve litt på egenhånd
 
-Oppgavene her, vil alle bruke terminal-klienten. Det er anbefalt å samarbeide
-i par, men det går helt fint å gjøre de både alene eller å være flere.
+I oppgavene her er det ment at du skal bruke terminal-klienten. Det er lagt
+opp til at man skal samarbeide på disse oppgavene. Om noe er vanskelig eller
+uklart er det bare å spørre om hjelp.
 
 1. Sjekk hvor mye du har tilgjengelig på din konto.
-2. Prøv og mine et par blokker met Geth sin CPU-miner
-    Husk å skru den av igjen, for å spare på ressursene på maskinen
+2. Prøv og mine et par blokker med Geth sin CPU-miner.
+    * Følg med i konsollen til Geth, for å se hva som skjer
+    * Husk å skru den av igjen etterpå
+3. Finn ut hvor mye du har på kontoen etter å ha minet, i ether.
+    * Ethereum forholder seg til enheten Wei, og har en helper for
+    konvertering mellom enheter.
+4. Prøv og overføre litt ether gjennom en transaksjon
+    * Du kan enten sende til en andre som deltar på workshopen eller
+    opprette en ekstra konto selv.
+    * Husk å unlocke kontoen du sender fra
+5. Hva skjer når man gjør en transaksjon, fra du skriver noe i konsollen
+    til mottakeren får sin ether? Hvordan blir ting distribuert utover
+    nettverket? Drøft med sidemannen.
