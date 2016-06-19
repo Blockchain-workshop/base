@@ -29,15 +29,10 @@ nettverket, som betyr at andre noder kan koble til deg for å laste ned blokker.
 
 ## Bli kjent med APIet til Geth
 
-Geth kommer med et RPC-api som man kan bruke for å ta i bruk blockchainen.
-Dette kan du f.eks. ta i bruk i node-applikasjoner via et rammeverk som
-heter [web3](https://github.com/ethereum/wiki/wiki/JavaScript-API).
-
 For å bli litt bedre kjent med systemet vi bruker, og samtidig faktisk få
 kjenne litt på hvordan en blockchain fungerer, vil vi først prøve å ta i
-det i bruk via en [interaktiv javascript-konsoll](https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console) 
-som følger med Geth. Du kobler til ved å skrive
-`geth attach http://localhost:8545`
+Geth i bruk via en [interaktiv javascript-konsoll](https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console) som følger med Geth. Du kobler til ved å
+skrive `geth attach http://localhost:8545`
 
 ### Opprette en konto
 

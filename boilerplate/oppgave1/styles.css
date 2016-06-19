@@ -1,0 +1,50 @@
+body {
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 5rem;
+  font-family: "Open Sans", sans-serif;
+}
+
+h1, h2 {
+  display: inline-block;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #AAA;
+  font-size: 32px;
+}
+
+h3 {
+  font-weight: normal;
+  color: #AAA;
+  font-size: 24px;
+}
+
+.avalible-ether {
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+fieldset {
+    border: none;
+    padding-left: 0;
+}
+
+label {
+  display: inline-block;
+  width: 110px;
+}
+
+input, select {
+  width: 500px;
+  padding: 5px;
+  font-size: 16px;
+  box-sizing:content-box;
+}
+
+button {
+  font-size: 16px;
+  padding: 5px;
+}
