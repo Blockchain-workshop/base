@@ -7,7 +7,7 @@ else
 fi
 
 genesisfile="genesis.json"
-bootnodes="enode://cdaba128c8d8e0442ed6a190d709f64725ad955bb00944b72fdb7decbd3219cafd14b90b496e9dcd7ba302181863a7d5540c2fdf263777c83b3abb152432cc25@10.0.20.175:30303"
+bootnodes="enode://598f0a9e0386ca2611f03a05836de1130f4edf1bb1b24e27eee8e54be0edc6bf9020a911e890487af7df0d81afa9ceb47c00828a5897a7e4ce3ec7abe9a49ed8@10.0.20.165:30303"
 networkid="956456"
 rpcmodules="admin,miner,db,eth,debug,personal,web3,net"
 
