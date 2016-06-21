@@ -3,9 +3,9 @@
 TODO: IKKE FERDIG IMPLEMENTERT
 
 Mine tanker om oppgaven;
-* Sette opp MetaCoin for de (ferdig publisert)
+* Sette opp MetaCoin på forhånd (ferdig publisert)
 * La de bruke metacoin lokalt.
-    * Vise koden, solidy - bare kort intro
+    * Vise koden, solidity - bare kort intro
     * Forklare hva som skjer
     * Vise at det bare er transaksjoner, akkurat som med overføringer
 
