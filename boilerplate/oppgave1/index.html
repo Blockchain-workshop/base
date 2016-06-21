@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Min ethereum wallet!</title>
+    <script type="text/javascript" src="../web3.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>Min ethereum wallet!</h1>
+
+    <p class="avalible-ether">
+        Ether tilgjengelig: <span id="avalible-ether">0</span>
+    </p>
+
+    <form onsubmit="handleFormSubmit(event)">
+        <fieldset>
+            <label for="input-from">Fra addresse:</label>
+            <select id="input-from" name="from" onchange="handleOnChangeAddress(event)"></select>
+        </fieldset>
+
+        <fieldset>
+            <label for="input-password">Passord:</label>
+            <input id="input-password" type="password" name="password" />
+        </fieldset>
+
+        <fieldset>
+            <label for="input-amount">Mengde:</label>
+            <input id="input-amount" type="number" name="amount" />
+        </fieldset>
+
+        <fieldset>
+            <label for="input-to">Til addresse:</label>
+            <input id="input-to" type="text" name="to" />
+        </fieldset>
+
+        <button type="submit">Send</button>
+    </form>
+
+    <span id="message" class="message"></span>
+
+    <script type="text/javascript" src="./script.js"></script>
+<body>
+
+</html>
